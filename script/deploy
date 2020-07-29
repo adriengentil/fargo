@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -exo pipefail
+
+source /usr/local/share/bash/travis_helpers.bash
+configure_jfrog_client
+
+if  [[ -n $TRAVIS_TAG ]]
+then
+    go mod tidy
+    jfrog rt gp go-virtual "$TRAVIS_TAG"
+fi
